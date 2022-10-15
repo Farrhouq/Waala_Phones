@@ -1,0 +1,11 @@
+<div class="navbar">
+<ul>
+    <div class="button"><a href="{% url 'home' %}"><li>HomePage</li></a></div>
+    <!-- <div class="button"><a href=""><li>Sign Up</li></a></div> -->
+    <div class="button"><a href="{% url 'login' %}"><li>Login</li></a></div>
+    {% if request.user.is_authenticated %}
+    <div class="button"><a href=""><li>View Cart</li></a></div>
+    <div class="button"><a href="{% url 'logout' %}"><li>Logout</li></a></div>
+    {% endif %}
+</ul>
+</div>

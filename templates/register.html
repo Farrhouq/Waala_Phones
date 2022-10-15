@@ -1,0 +1,24 @@
+{% extends 'main.html' %} {% block content %}
+<div style="margin-right: 100px" class="form">
+  <form action="" method="POST">
+    {% csrf_token %}
+    <div class="register-form">{{form.as_p}}</div>
+
+    <div style="padding: 10px; width: fit-content">
+      <input
+        style="
+          height: 50px;
+          width: 80px;
+          font-size: large;
+          border-radius: 20%;
+          background: blue;
+          color: white;
+        "
+        type="submit"
+        value="Register"
+      />
+    </div>
+  </form>
+</div>
+
+{% endblock content %}

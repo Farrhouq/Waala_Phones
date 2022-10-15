@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'style_files/mystyle.css' %}" />
+    <title>Document</title>
+
+    
+  </head>
+  <body>
+    <div class="navbar">
+      <div
+        class="welcome"
+        style="
+          background-color: red;
+          text-align: center;
+          height: 50px;
+          color: azure;
+          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          margin-left: 0px;
+          line-height: 50px;
+          height: 50px;
+          font-size: x-large;
+        "
+      >
+      {% if request.user.username != '' %}
+        WELCOME, {{request.user.username}}!
+        {% else %}
+        WELCOME!
+        {% endif %}
+      </div>
+      <a href="{% url 'home' %}"
+        ><div class="sub">
+          <strong>
+            <img src="{% static 'images/home.png' %}" alt="pic" />
+            Home
+          </strong>
+        </div></a
+      >
+      {% if not request.user.is_authenticated %} {% if page == 'register' %}
+      <a href="{% url 'login' %}"
+        ><div class="sub"><strong>Login</strong></div></a
+      >
+      {% else %}
+      <a href="{% url 'register' %}"
+        ><div class="sub"><strong>Register</strong></div></a
+      >
+      {% endif %} {% endif %} {% if request.user.is_authenticated %}
+      <a href="{% url 'logout' %}"
+        ><div class="sub"><strong>Logout</strong></div></a
+      >
+      {% if not request.user.is_superuser %}
+      <a href="{% url 'cart' request.user.cart.id %}"
+        ><div class="sub">
+          <strong
+            ><img
+              src="{% static 'images/cart.png' %}"
+              alt="pic"
+            />Cart({{pn}})</strong
+          >
+        </div></a
+      >
+      {% endif %} {% endif %}
+    </div>
+    {% block content %} {% endblock %}
+  </body>
+</html>

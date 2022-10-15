@@ -1,0 +1,186 @@
+.navbar {
+    background-color: cadetblue;
+    width: 20%;
+    height: 100%;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  body {
+    background-color: chartreuse;
+    overflow-x: hidden;
+  }
+
+  .sub {
+    background-color: rgb(248, 245, 244);
+    height: 70px;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 30%;
+    margin: 20px 30px;
+    border: 5px solid black;
+    font-size: xx-large;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  h1 {
+    color: red;
+    margin-left: 50px;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .welcome {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: xx-large;
+  }
+
+  .item {
+    height: 200px;
+    width: 250px;
+    display: flex;
+    justify-content: center;
+    line-height: 200px;
+    border-radius: 20%;
+    border: 10px solid blue;
+    margin-top: 1px;
+  }
+
+  .pics {
+    width: 100%;
+    height: 100%;
+  }
+
+  .form {
+    border-radius: 20px;
+    border-style: double;
+    border-color: red;
+    border-width: 10px;
+    position: fixed;
+    top: 100px;
+    left: 500px;
+    height: fit-content;
+    padding: 30px;
+    background-color: aqua;
+    font-size: 30px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+
+  .grid-container {
+    width: 100vw;
+    position: absolute;
+    left: 300px;
+    top: 50px;
+    display: grid;
+    height: 100%;
+    grid-template-columns: 330px 330px 330px;
+  }
+
+  .buyadd {
+    font-size: 20px;
+    font-family: "Gill Sans", "Gill Sans MT", Calibri, "Trebuchet MS",
+      sans-serif;
+    display: flex;
+    flex-direction: row;
+    width: 200px;
+    height: 50px;
+    margin-top: 10px;
+    padding-left: 10px;
+  }
+
+  img {
+    max-width: 250px;
+    border-radius: 20%;
+  }
+
+  .buy {
+    background-color: rgb(10, 101, 221);
+    width: 80px;
+    height: 40px;
+    position: relative;
+    margin-right: 10px;
+    margin-top: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 5px ridge rgb(250, 7, 7);
+    border-radius: 30%;
+    color: aliceblue;
+  }
+
+  .add-to-cart {
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding-left: 2px;
+    border: 5px double blue;
+    border-radius: 30%;
+    border-style: groove;
+  }
+
+  .name-price {
+    background-color: rgb(223, 21, 21);
+    width: 260px;
+    height: 50px;
+    margin-bottom: 1px;
+    color: beige;
+    font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
+      "Lucida Sans", Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid blue;
+    border-radius: 10%;
+  }
+
+  .add {
+    background-color: aliceblue;
+    width: 100px;
+    height: 40px;
+    position: absolute;
+    left: 800px;
+    margin-top: 0px;
+    margin-right: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    border-radius: 10px;
+    border-style: dotted;
+  }
+
+  .field {
+    height: 20px;
+    width: 200px;
+    border-radius: 10px;
+    border: 3px solid red;
+    background-color: white;
+    padding: 5px;
+    font-size: large;
+  }
+
+  .register-form {
+    font-size: large;
+  }
+
+  .register-form input {
+    border: 1px double red;
+    border-radius: 3px;
+    height: 30px;
+    width: 100%;
+    color: var(--color-light);
+    font-weight: 500;
+    outline: none;
+}

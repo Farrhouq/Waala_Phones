@@ -1,0 +1,24 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="grid-container">
+  {% if pn != 0 %}
+  
+  {% for product in products %}
+    <div>
+      <div class="item">
+        <img src="{{product.image.url}}" />
+      </div>
+      <div class="buyadd">
+        <a href="{% url 'remove-from-cart' product.id %}"><div class="add-to-cart">Remove</div></a>
+      </div>
+    </div>
+    {% endfor %}
+  
+  {% else %}
+  <p><h2 style="font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;position: fixed;top: 200px;left: 500px;">You have no items in your cart! <a href="{% url 'home' %}">Continue Shopping</a></h2></p>
+  {% endif %}
+  </div>
+
+{% endblock content %}

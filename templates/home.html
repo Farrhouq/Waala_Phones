@@ -1,0 +1,37 @@
+{% extends 'main.html' %} {% load static %} {% block content %}
+
+
+
+
+<div class="grid-container">
+  {% if request.user.is_superuser %}
+  <a class="add" href="{% url 'add' %}"><h3>Add Item</h3></a>
+  {% endif %}
+  {% for product in products %}
+  <div style="margin-top: 50px">
+    <div class="name-price">GHC{{product.price}} {{product.name}}</div>
+    <div>
+      <div class="item">
+        <img class="pics" src="{{product.image.url}}" />
+      </div>
+      {% if request.user.is_authenticated %}
+      <div class="buyadd">
+        {% if not request.user.is_superuser%}
+        <div class="buy">Buy</div>
+        <div class="add-to-cart">
+          <a href="{% url 'add-to-cart' product.id %}">Add to Cart</a>
+        </div>
+        {% else %}
+        <a href="{% url 'delete' product.id %}"><div class="buy">Delete</div></a>
+        <div class="add-to-cart">
+          <a href="{% url 'edit' product.id %}">Edit</a>
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+{% endblock content %}
