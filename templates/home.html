@@ -3,8 +3,11 @@
 
 
 
-<div  style="background-color: darkslateblue;">
+<div  style="background-color: darkslateblue;width: 100%;height: 100%;">
   <div class="container" style="display: grid;grid-template-columns: 1fr 1fr 1fr;width: 100%;height: 100%;">
+    {% if products.count == 0 %}
+      <h1>No items match your search. Try a different search or check the spelling</h1>
+    {% endif %}
     {% for product in products %}
         <div class="card" style="width: 18rem;margin: 20px;">
           <img src="{{product.image.url}}" style="height: 45%;" class="card-img-top" alt="">

@@ -17,10 +17,15 @@ from django.db.models import Q
 def homepage(request):
     search_query = request.GET.get('q') if request.GET.get('q') != None else ''
 
-    products  = Product.objects.filter(
-        Q(brand__icontains=search_query) |
-        Q(name__icontains=search_query) 
-    ) 
+    try:
+        inte = int(search_query)
+        productsa = Product.objects.all()
+        products = [product for product in productsa if product.price <= inte]
+    except:
+        products  = Product.objects.filter(
+            Q(brand__icontains=search_query) |
+            Q(name__icontains=search_query) 
+        ) 
 
     if request.user.is_authenticated:
         products1 = request.user.cart.products
