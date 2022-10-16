@@ -9,12 +9,19 @@ from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
 from . import forms as f
 from .models import Cart, Product
+from django.db.models import Q
+
 
 
 # Create your views here.
 def homepage(request):
-    products = Product.objects.all()
-    products1 = []
+    search_query = request.GET.get('q') if request.GET.get('q') != None else ''
+
+    products  = Product.objects.filter(
+        Q(brand__icontains=search_query) |
+        Q(name__icontains=search_query) 
+    ) 
+
     if request.user.is_authenticated:
         products1 = request.user.cart.products
 
@@ -52,7 +59,7 @@ def loginPage(request):
 
 def logoutUser(request):
     logout(request)
-    return redirect('login')
+    return redirect('home')
 
 
 def register(request):

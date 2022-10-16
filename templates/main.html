@@ -5,66 +5,90 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" href="{% static 'style_files/mystyle.css' %}" />
+    <link rel="stylesheet" href="{% static 'style_files/bootstrap.css' %}" />
     <title>Document</title>
 
     
   </head>
   <body>
-    <div class="navbar">
-      <div
-        class="welcome"
-        style="
-          background-color: red;
-          text-align: center;
-          height: 50px;
-          color: azure;
-          font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-          margin-left: 0px;
-          line-height: 50px;
-          height: 50px;
-          font-size: x-large;
-        "
-      >
-      {% if request.user.username != '' %}
-        WELCOME, {{request.user.username}}!
-        {% else %}
-        WELCOME!
-        {% endif %}
+   
+    <nav class="navbar navbar-expand-lg bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="">Waala Phones Ltd.</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
+            </li>
+            {% if not request.user.is_authenticated %}
+            <li class="nav-item">
+              {% if page == 'register' %}
+              <a class="nav-link" href="{% url 'login' %}">Register</a>
+              {% else %}
+              <a class="nav-link" href="{% url 'register' %}">Login</a>
+              {% endif %}
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'logoutUser' %}">Logout</a>
+            </li>
+            {% endif %}
+            {% if request.user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link disabled">Hi, {{request.user}}</a>
+            </li>
+            {% endif %}
+          </ul>
+            <form method="GET" action="{% url 'home' %}" class="d-flex" role="search" style="margin-left: 600px;">
+              <input name="q" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+              <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </div>
       </div>
-      <a href="{% url 'home' %}"
-        ><div class="sub">
-          <strong>
-            <img src="{% static 'images/home.png' %}" alt="pic" />
-            Home
-          </strong>
-        </div></a
-      >
-      {% if not request.user.is_authenticated %} {% if page == 'register' %}
-      <a href="{% url 'login' %}"
-        ><div class="sub"><strong>Login</strong></div></a
-      >
-      {% else %}
-      <a href="{% url 'register' %}"
-        ><div class="sub"><strong>Register</strong></div></a
-      >
-      {% endif %} {% endif %} {% if request.user.is_authenticated %}
-      <a href="{% url 'logout' %}"
-        ><div class="sub"><strong>Logout</strong></div></a
-      >
-      {% if not request.user.is_superuser %}
-      <a href="{% url 'cart' request.user.cart.id %}"
-        ><div class="sub">
-          <strong
-            ><img
-              src="{% static 'images/cart.png' %}"
-              alt="pic"
-            />Cart({{pn}})</strong
-          >
-        </div></a
-      >
-      {% endif %} {% endif %}
-    </div>
+    </nav>
+
+    <!-- <nav class="navbar navbar-expand-lg bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="#">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Link</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Dropdown
+              </a>
+              <ul class="dropdown-menu">
+                <li><a class="dropdown-item" href="#">Action</a></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link disabled">Disabled</a>
+            </li>
+          </ul>
+          <form class="d-flex" role="search">
+            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success" type="submit">Search</button>
+          </form>
+        </div>
+      </div>
+    </nav> -->
+
+    
+
     {% block content %} {% endblock %}
   </body>
 </html>

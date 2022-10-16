@@ -8,8 +8,8 @@ from . import views
 urlpatterns = [
     path('', views.homepage, name='home'),
     path('register', views.register, name='register'),
-    path('login', views.loginPage, name='login'),
-    path('logout', views.logoutUser, name='logout'),
+    path('login/', views.loginPage, name='login'),
+    path('logout/', views.logoutUser, name='logoutUser'),
     path('my_cart/<str:pk>', views.cart, name='cart'),
     path('add-to-cart/<str:pk>/', views.add_to_cart, name='add-to-cart'),
     path('remove-from-cart/<str:pk>/', views.remove_from_cart, name='remove-from-cart'),
