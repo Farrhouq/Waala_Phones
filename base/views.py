@@ -1,24 +1,41 @@
-# from multiprocessing import context
+<<<<<<< HEAD
+=======
+from multiprocessing import context
+from operator import is_
+>>>>>>> DesignBranch
 from tkinter import N
 from unicodedata import name
 from django.shortcuts import render
-from .forms import ProductForm
+from .forms import ProductForm, ProductFormI, ProductImageForm
 from .models import Product, User
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, HttpResponse, redirect
 from django.contrib import messages
 from . import forms as f
 from .models import Cart, Product
+from django.db.models import Q
+
 
 
 # Create your views here.
 def homepage(request):
-    products = Product.objects.all()
-    products1 = []
+    search_query = request.GET.get('q') if request.GET.get('q') != None else ''
+    is_admin = '(Admin)' if request.user.is_superuser else ''
+    try:
+        inte = int(search_query)
+        productsa = Product.objects.all()
+        products = [product for product in productsa if product.price <= inte]
+    except:
+        products  = Product.objects.filter(
+            Q(brand__icontains=search_query) |
+            Q(name__icontains=search_query) 
+        ) 
+    pn = 0
     if request.user.is_authenticated:
-        products1 = request.user.cart.products
-
-    context = {'products': products, 'pn': len(products1)}
+        pn = len(request.user.cart.products)
+    
+    
+    context = {'products': products, 'pn': pn, 'page':'home', 'a':is_admin}
     return render(request, 'home.html', context)
 
 
@@ -52,7 +69,7 @@ def loginPage(request):
 
 def logoutUser(request):
     logout(request)
-    return redirect('login')
+    return redirect('home')
 
 
 def register(request):
@@ -70,7 +87,8 @@ def register(request):
     return render(request, 'register.html', context)
 
 
-def cart(request, pk):
+def cart(request):
+    page = 'cart'
     cart = request.user.cart
     products1 = cart.products
     products = []
@@ -80,7 +98,9 @@ def cart(request, pk):
         products.append(p1)
 
     pn = len(products)
-    context = {'products': set(products), 'pn': pn}
+    total = cart.calc_price()
+    
+    context = {'products': set(products), 'pn': pn, 'total':total, 'page':page}
     return render(request, 'cart.html', context)
 
 
@@ -95,28 +115,31 @@ def remove_from_cart(request, pk):
     p1 = Product.objects.get(id=pk)
     cart = request.user.cart
     cart.products.remove(p1.name)
-    return redirect('cart', pk)
+    return redirect('cart')
 
 
 def delete(request, pk):
+    if not request.user.is_superuser:
+        return redirect('home')
     product = Product.objects.get(id=pk)
     product.delete()
     return redirect('home')
 
 
 def edit(request, pk):
-    product = Product.objects.get(id=pk)
-    form = ProductForm(instance=product)
-    if request.method == 'POST':
-        name = request.POST.get('name')
-        product.name = name
-        product.image = request.POST.get('image')
-        product.stock = request.POST.get('stock')
-        product.price = request.POST.get('price')
-
-        product.save()
+    if not request.user.is_superuser:
         return redirect('home')
-    context = {'form': form}
+    page = 'edit'
+    product = Product.objects.get(id=pk)
+    form = ProductFormI(instance=product)
+    if request.method == 'POST':
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+            product.save()
+        return redirect('home',)
+        
+        
+    context = {'form': form, 'page': page}
     return render(request, 'edit.html', context)
 
 
@@ -136,8 +159,40 @@ def add(request):
                 name = request.POST.get('name'),
                 price = request.POST.get('price'),
                 stock = request.POST.get('stock'),
-                
             )
         return redirect('home')
-    context = {'form':form}
+    context = {'form':form,}
     return render(request, 'add.html', context)
+
+
+def info(request, pk):
+    product = Product.objects.get(id=pk)
+    context = {'product': product}
+    return render(request, 'info.html', context)
+
+def edit_image(request, pk):
+    page = 'image'
+    product = Product.objects.get(id=pk)
+    form = ProductImageForm()
+    if request.method == 'POST':
+        form = ProductImageForm(request.FILES, instance=product)
+        if form.is_valid():
+            product.image = request.POST.get('image')
+            product.save()
+            return redirect('home')
+    return render(request, 'edit.html', {'page':page, 'form':form})
+
+
+def buy(request):
+    page = 'buy'
+    if not request.user.is_authenticated:
+        return redirect('home')
+    cart = Cart.objects.get(user=request.user)
+    total = cart.calc_price()
+    return render(request, 'buy.html', {'total':total, 'page': page}) 
+
+
+def buy_single(request, pk):
+    page = 'buy'
+    total = Product.objects.get(id=pk).price
+    return render(request, 'buy-single.html', {'total':total, 'page': page})
