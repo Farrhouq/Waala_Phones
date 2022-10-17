@@ -12,7 +12,8 @@
   </head>
   <body style="background-color:darkslateblue;">
    
-    <nav class="navbar navbar-expand-sm bg-dark">
+    
+    <nav class="navbar navbar-expand-sm bg-dark sticky-top">
       <div class="container-fluid">
         <a class="navbar-brand" href="">Waala Phones Ltd.</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,9 +50,9 @@
           </form>
           {% endif %}
           <li class="nav-item">
-            {% if request.user.is_authenticated  and not request.user.is_superuser %}
-            <a href="{% url 'cart' request.user.id %}" type="button" class="btn btn-primary position-relative">
-              Cart <span><img src="{% static 'images/cart.png' %}" width="20px;height:10px" alt=""></span>
+            {% if request.user.is_authenticated  and not request.user.is_superuser and page != 'cart' and page != 'buy' %}
+            <a href="{% url 'cart' %}" type="button" class="btn btn-primary position-relative">
+              Cart <span><img src="{% static 'images/cart.png' %}" width="20px;height:10px;" alt=""></span>
               <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
                 {{pn}}
               </span>

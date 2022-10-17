@@ -3,7 +3,7 @@ from operator import is_
 from tkinter import N
 from unicodedata import name
 from django.shortcuts import render
-from .forms import ProductForm
+from .forms import ProductForm, ProductFormI, ProductImageForm
 from .models import Product, User
 from django.contrib.auth import authenticate, login, logout
 from django.shortcuts import render, HttpResponse, redirect
@@ -85,6 +85,7 @@ def register(request):
 
 
 def cart(request):
+    page = 'cart'
     cart = request.user.cart
     products1 = cart.products
     products = []
@@ -94,7 +95,9 @@ def cart(request):
         products.append(p1)
 
     pn = len(products)
-    context = {'products': set(products), 'pn': pn}
+    total = cart.calc_price()
+    
+    context = {'products': set(products), 'pn': pn, 'total':total, 'page':page}
     return render(request, 'cart.html', context)
 
 
@@ -109,7 +112,7 @@ def remove_from_cart(request, pk):
     p1 = Product.objects.get(id=pk)
     cart = request.user.cart
     cart.products.remove(p1.name)
-    return redirect('cart', pk)
+    return redirect('cart')
 
 
 def delete(request, pk):
@@ -125,11 +128,11 @@ def edit(request, pk):
         return redirect('home')
     page = 'edit'
     product = Product.objects.get(id=pk)
-    form = ProductForm(instance=product)
+    form = ProductFormI(instance=product)
     if request.method == 'POST':
         form = ProductForm(request.POST, instance=product)
         if form.is_valid():
-                product.save()
+            product.save()
         return redirect('home',)
         
         
@@ -155,7 +158,7 @@ def add(request):
                 stock = request.POST.get('stock'),
             )
         return redirect('home')
-    context = {'form':form}
+    context = {'form':form,}
     return render(request, 'add.html', context)
 
 
@@ -163,3 +166,30 @@ def info(request, pk):
     product = Product.objects.get(id=pk)
     context = {'product': product}
     return render(request, 'info.html', context)
+
+def edit_image(request, pk):
+    page = 'image'
+    product = Product.objects.get(id=pk)
+    form = ProductImageForm()
+    if request.method == 'POST':
+        form = ProductImageForm(request.FILES, instance=product)
+        if form.is_valid():
+            product.image = request.POST.get('image')
+            product.save()
+            return redirect('home')
+    return render(request, 'edit.html', {'page':page, 'form':form})
+
+
+def buy(request):
+    page = 'buy'
+    if not request.user.is_authenticated:
+        return redirect('home')
+    cart = Cart.objects.get(user=request.user)
+    total = cart.calc_price()
+    return render(request, 'buy.html', {'total':total, 'page': page}) 
+
+
+def buy_single(request, pk):
+    page = 'buy'
+    total = Product.objects.get(id=pk).price
+    return render(request, 'buy-single.html', {'total':total, 'page': page})

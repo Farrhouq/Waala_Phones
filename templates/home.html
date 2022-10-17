@@ -6,6 +6,11 @@
               <a class="btn btn-success" href="{% url 'add' %}">Add Products</a>
             
   {% endif %}
+  {% if products.count == 0 %}
+    <h1 style="color: white;margin-top:5rem;margin-left:2rem;">
+      No items match your search. Try a different search or check the spelling
+    </h1>
+    {% endif %}
   <div
     class="container"
     style="
@@ -15,18 +20,23 @@
       height: 100%;
     "
   >
-    {% if products.count == 0 %}
-    <h1>
-      No items match your search. Try a different search or check the spelling
-    </h1>
-    {% endif %} {% for product in products %}
+     {% for product in products %}
     <div class="card" style="width: 18rem; margin: 2rem">
-      <img
+      {% if request.user.is_superuser %}
+      <a href="{% url 'edit_image' product.id %}"><img
         src="{{product.image.url}}"
-        style="height: 45%"
+        style="height: 90%"
         class="card-img-top"
         alt=""
-      />
+      /></a>
+      {% else %}
+      <a href="{% url 'info' product.id %}"><img
+        src="{{product.image.url}}"
+        style="height: 90%"
+        class="card-img-top"
+        alt=""
+      /></a>
+      {% endif %}
       <div class="card-body">
         <h5 class="card-title">GHC{{product.price}}0</h5>
         <p class="card-text">{{product.name}}</p>
@@ -39,10 +49,10 @@
         <a href="{% url 'add-to-cart' product.id %}" class="btn btn-primary"
           >Add to Cart</a
         >
-        <a href="" class="btn btn-success">Buy</a>
+        <a href="{% url 'buy_single' product.id %}" class="btn btn-success">Buy</a>
         {% endif %} {% else %}
         <a href="{% url 'login' %}" class="btn btn-primary">Add to Cart</a>
-        <a href="{% url 'home' %}" class="btn btn-success">Buy</a>
+        <a href="{% url 'login' %}" class="btn btn-success">Buy</a>
         {% endif %}
       </div>
     </div>

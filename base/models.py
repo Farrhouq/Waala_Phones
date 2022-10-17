@@ -2,6 +2,7 @@ from email.policy import default
 from enum import unique
 from random import choices
 from tkinter import CASCADE
+from unicodedata import name
 from django.db import models
 from django.contrib.auth.models import User
 
@@ -28,3 +29,11 @@ class Product(models.Model):
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     products = set()
+    
+
+    def calc_price(self):
+        total = 0
+        for _ in self.products:
+            product = Product.objects.get(name=_)
+            total += product.price 
+        return total

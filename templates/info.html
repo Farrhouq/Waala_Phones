@@ -2,4 +2,14 @@
 
 {% block content %}
 
+
+<div class="container">
+    <img src="{{product.image.url}}" style="height: 60%;width:60%;" alt="image of product">
+    
+    <p style="color: white;">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Sapiente unde illo facere ducimus deserunt ex quidem repudiandae recusandae suscipit impedit saepe harum, nam totam, assumenda vel reiciendis doloribus tempore sequi fugiat dicta. Voluptatum eligendi quaerat impedit, ab sunt nulla rem est vero ipsa sint alias iure blanditiis a nemo nostrum deleniti amet praesentium quos repellat, beatae ipsam dolore dolores quibusdam maxime. Deserunt veritatis, inventore ipsam atque maiores perferendis commodi perspiciatis necessitatibus esse amet laudantium molestiae vero quam optio obcaecati quas tempore alias animi distinctio. Quam culpa officia veniam, aliquid laborum qui inventore alias, harum dignissimos voluptas facere temporibus iure unde incidunt rerum quae nulla error eligendi amet quisquam tempora tempore doloribus odio! Aliquid laboriosam autem libero totam, expedita minus, architecto ex alias commodi quia veritatis enim harum impedit quos distinctio ipsam? Accusamus magni alias inventore modi voluptates maiores consequatur laborum voluptatem recusandae. Odio at perferendis eius reiciendis, dolorem officia voluptatibus labore repellendus minima, aliquid nisi rerum rem cum commodi mollitia dolorum quod porro ex assumenda maiores numquam facere culpa molestias est? Sequi dicta fugit fugiat dolore vel fuga quam, id molestias exercitationem accusamus, magnam odit dolorum nulla aliquid minus consequatur quibusdam deserunt dolor explicabo soluta consectetur quaerat obcaecati ipsum. Similique totam unde eaque, mollitia itaque sunt accusamus amet alias aspernatur, cupiditate porro voluptates deserunt nostrum consequuntur cum sed obcaecati culpa ducimus? Numquam officia qui iure saepe sint consectetur eaque praesentium distinctio sed accusamus quod, maxime dolores nesciunt sunt tempora. Vero repellendus itaque, mollitia voluptas voluptatem repudiandae provident a distinctio, nostrum eveniet ea tempore officiis illo omnis saepe quia consequuntur hic deserunt at! Minus voluptatibus nostrum repudiandae debitis in beatae modi magni ratione dicta libero repellendus, sit optio fugit tempore labore harum aut suscipit quod nobis. Numquam ratione vitae mollitia voluptates corrupti iusto aperiam atque officiis ipsum! Similique sequi voluptatum quaerat.</p>
+    <a href="{% url 'add-to-cart' product.id %}" class="btn btn-primary">Add to Cart</a>
+    <a href="{% url 'buy_single' product.id %}" class="btn btn-success">Buy</a>
+</div>
+
+
 {% endblock %}

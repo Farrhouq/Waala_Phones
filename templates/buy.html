@@ -1,0 +1,10 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<p style="color: pink;font-size:x-large;margin-left: 1rem;">NOTE: Due to some reasons the payment methods have not been responding.. but we would improve on that later☹</p>
+<h1 style="color:white;margin-top:10%;margin-left:10%;">To place your order, contact Waala on 0203455643</h1>
+<h1 style="color:white;margin-top:10.5%;margin-left:10%;">Total Amount to be paid: GHC{{total}} plus shipping fees which will be determined by Waala</h1>
+<p style="color:white;margin-left:10%;font-size:x-large"><a style="color:rgb(70, 197, 45)" href="{% url 'home' %}">Back to home page</a></p>
+
+<a href="{% url 'home' %}"></a>
+{% endblock %}

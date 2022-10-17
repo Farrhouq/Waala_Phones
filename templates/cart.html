@@ -1,24 +1,46 @@
 {% extends 'main.html' %} {% load static %} {% block content %}
 
 
-
-
-<div  style="background-color: darkslateblue;width: 100%;height: 100%;">
-  <div class="container" style="display: grid;grid-template-columns: 1fr 1fr 1fr;width: 100%;height: 100%;">
-    {% if products.count == 0 %}
-      <h1>You have no items in your shopping cart. <a href="{% url 'home' %}">Continue Shopping</a></h1>
+{% if pn == 0 %}
+    <h1 style="margin: 15% 15%;color: chartreuse;">
+      You have no items in your cart.
+      <a href="{% url 'home' %}" style="color: pink;">Continue Shopping</a>
+    </h1>
     {% endif %}
-    {% for product in products %}
-        <div class="card" style="width: 18rem;margin: 2rem">
-          <img src="{{product.image.url}}" style="height: 45%;" class="card-img-top" alt="">
-          <div class="card-body">
-            <h5 class="card-title">GHC{{product.price}}0</h5>
-            <p class="card-text">{{product.name}}</p>
-            <a href="{% url 'remove-from-cart' product.id %}" class="btn btn-primary">Remove from Cart</a>
-          </div>
-          </div>
+<div style="background-color: darkslateblue; width: 100%; height: 100%">
+  <div
+    class="container"
+    style="
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      width: 100%;
+      height: 100%;
+    "
+  >
+     {% for product in products %}
+    <div class="card" style="width: 18rem; margin: 2rem">
+      <a href="{% url 'info' product.id %}"><img
+        src="{{product.image.url}}"
+        style="height: 90%"
+        class="card-img-top"
+        alt="phone-image"
+      /></a>
+      <div class="card-body">
+        <h5 class="card-title">GHC{{product.price}}0</h5>
+        <p class="card-text">{{product.name}}</p>
+        <a
+          href="{% url 'remove-from-cart' product.id %}"
+          class="btn btn-primary"
+          >Remove from Cart</a
+        >
+      </div>
+    </div>
     {% endfor %}
   </div>
-        </div>
+  {% if total != 0 %}
+  <hr style="background-color: white;">
+  <a href="{% url 'buy' %}" class="btn btn-success" style="margin-left:50%;padding: 1.5rem;font-size: xx-large;margin-bottom: 1.2rem;" >Checkout(GHC{{total}})</a>
+  {% endif %}
+</div>
 
 {% endblock content %}
