@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="container" style="margin: auto;margin-top: 100px;background:rgb(204, 204, 204);width: 35%;height: fit-content;">
+<div class="container" style="margin: auto;margin-top: 10%;background:rgb(204, 204, 204);width: 35%;height: fit-content;">
  <form action="" method="POST">
 {% csrf_token%}
 <!--<div style="padding: 20px;">
@@ -25,6 +25,7 @@
     <label for="formGroupExampleInput2" class="form-label">Password</label>
     <input type="password" name="password" class="form-control" id="formGroupExampleInput2" placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;">
   </div>
+  <p style="margin-bottom: 1rem ;">Not registered yet? <a  href="{% url 'register' %}">Sign Up</a></p>
   <input type="submit" value="Login" class="btn btn-success" style="margin: 15px 0;">
 </div>
 </form> 

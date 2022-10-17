@@ -10,9 +10,9 @@
 
     
   </head>
-  <body>
+  <body style="background-color:darkslateblue;">
    
-    <nav class="navbar navbar-expand-lg bg-dark">
+    <nav class="navbar navbar-expand-sm bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="">Waala Phones Ltd.</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,14 +21,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item">
+              {% if page != 'edit' %}
               <a class="nav-link active" aria-current="page" href="{% url 'home' %}">Home</a>
             </li>
             {% if not request.user.is_authenticated %}
             <li class="nav-item">
-              {% if page == 'register' %}
-              <a class="nav-link" href="{% url 'login' %}">Register</a>
-              {% else %}
-              <a class="nav-link" href="{% url 'register' %}">Login</a>
+              {% if page == 'home' %}
+              <a class="nav-link" href="{% url 'login' %}">Sign In</a>
               {% endif %}
             </li>
             {% else %}
@@ -38,57 +37,32 @@
             {% endif %}
             {% if request.user.is_authenticated %}
             <li class="nav-item">
-              <a class="nav-link disabled">Hi, {{request.user}}</a>
+              <a style="color: white;" class="nav-link disabled">Hi, {{request.user}}{{a}}</a>
             </li>
             {% endif %}
           </ul>
-            <form method="GET" action="{% url 'home' %}" class="d-flex" role="search" style="margin-left: 500px;">
-              <input name="q"  class="form-control me-2" type="search" placeholder="Search by brand,name,..." aria-label="Search">
-              <button class="btn btn-outline-success" style="margin-left: 5px;" type="submit">Search</button>
-            </form>
+          
+          {% if page == 'home' %}
+          <form method="GET" action="{% url 'home' %}" class="d-flex" role="search" style="margin-left: 450px;">
+            <input name="q"  class="form-control me-2" type="search" placeholder="Search by brand,name,..." aria-label="Search">
+            <button class="btn btn-outline-success" style="margin-left: 5px;" type="submit">Search</button>
+          </form>
+          {% endif %}
+          <li class="nav-item">
+            {% if request.user.is_authenticated  and not request.user.is_superuser %}
+            <a href="{% url 'cart' request.user.id %}" type="button" class="btn btn-primary position-relative">
+              Cart <span><img src="{% static 'images/cart.png' %}" width="20px;height:10px" alt=""></span>
+              <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                {{pn}}
+              </span>
+            </a>
+            {% endif %}
+            {% endif %}
+            
+          </li>
         </div>
       </div>
     </nav>
-
-    <!-- <nav class="navbar navbar-expand-lg bg-light">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="#">Navbar</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="#">Link</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Dropdown
-              </a>
-              <ul class="dropdown-menu">
-                <li><a class="dropdown-item" href="#">Action</a></li>
-                <li><a class="dropdown-item" href="#">Another action</a></li>
-                <li><hr class="dropdown-divider"></li>
-                <li><a class="dropdown-item" href="#">Something else here</a></li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link disabled">Disabled</a>
-            </li>
-          </ul>
-          <form class="d-flex" role="search">
-            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success" type="submit">Search</button>
-          </form>
-        </div>
-      </div>
-    </nav> -->
-
-    
-
     {% block content %} {% endblock %}
   </body>
 </html>

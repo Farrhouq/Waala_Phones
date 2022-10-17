@@ -11,7 +11,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200, unique=True)
     price = models.FloatField(null=True)
     stock = models.IntegerField(null=True)
-    image = models.ImageField(null=True, default='cart.png')
+    image = models.ImageField(null=True, )
     brand_choices = (
         ('Samsung', 'Samsung'),
         ('Tecno', 'Tecno'),

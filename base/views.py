@@ -1,4 +1,5 @@
 from multiprocessing import context
+from operator import is_
 from tkinter import N
 from unicodedata import name
 from django.shortcuts import render
@@ -16,7 +17,7 @@ from django.db.models import Q
 # Create your views here.
 def homepage(request):
     search_query = request.GET.get('q') if request.GET.get('q') != None else ''
-
+    is_admin = '(Admin)' if request.user.is_superuser else ''
     try:
         inte = int(search_query)
         productsa = Product.objects.all()
@@ -26,11 +27,12 @@ def homepage(request):
             Q(brand__icontains=search_query) |
             Q(name__icontains=search_query) 
         ) 
-
+    pn = 0
     if request.user.is_authenticated:
-        products1 = request.user.cart.products
-
-    context = {'products': products, 'pn': len(products1)}
+        pn = len(request.user.cart.products)
+    
+    
+    context = {'products': products, 'pn': pn, 'page':'home', 'a':is_admin}
     return render(request, 'home.html', context)
 
 
@@ -82,7 +84,7 @@ def register(request):
     return render(request, 'register.html', context)
 
 
-def cart(request, pk):
+def cart(request):
     cart = request.user.cart
     products1 = cart.products
     products = []
@@ -111,24 +113,27 @@ def remove_from_cart(request, pk):
 
 
 def delete(request, pk):
+    if not request.user.is_superuser:
+        return redirect('home')
     product = Product.objects.get(id=pk)
     product.delete()
     return redirect('home')
 
 
 def edit(request, pk):
+    if not request.user.is_superuser:
+        return redirect('home')
+    page = 'edit'
     product = Product.objects.get(id=pk)
     form = ProductForm(instance=product)
     if request.method == 'POST':
-        name = request.POST.get('name')
-        product.name = name
-        product.image = request.POST.get('image')
-        product.stock = request.POST.get('stock')
-        product.price = request.POST.get('price')
-
-        product.save()
-        return redirect('home')
-    context = {'form': form}
+        form = ProductForm(request.POST, instance=product)
+        if form.is_valid():
+                product.save()
+        return redirect('home',)
+        
+        
+    context = {'form': form, 'page': page}
     return render(request, 'edit.html', context)
 
 
@@ -148,8 +153,13 @@ def add(request):
                 name = request.POST.get('name'),
                 price = request.POST.get('price'),
                 stock = request.POST.get('stock'),
-                
             )
         return redirect('home')
     context = {'form':form}
     return render(request, 'add.html', context)
+
+
+def info(request, pk):
+    product = Product.objects.get(id=pk)
+    context = {'product': product}
+    return render(request, 'info.html', context)

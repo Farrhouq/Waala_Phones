@@ -1,14 +1,10 @@
-{% extends 'main.html' %}
-{% block content %}
+{% extends 'main.html' %} {% block content %} {% load crispy_forms_tags%}
 
-<form action="" method="POST">
-
-<div class="form">
-    {% csrf_token %}
-    {{form.as_p}}
-    <input type="submit" value="Change">
+<div class="container" style="width: fit-content;height:fit-content;background-color: gray;margin-top: 1rem;">
+  <form action="" method="POST">
+    {% csrf_token %} {{form | crispy}}
+    <input type="submit" class="btn btn-info" style="margin: 1.5rem 0;" value="Change" />
+  </form>
 </div>
-
-</form>
 
 {% endblock content %}

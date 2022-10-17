@@ -1,38 +1,14 @@
-{% extends 'main.html' %}
-{% block content %}
+{% extends 'main.html' %} {% block content %} {% load crispy_forms_tags%}
 
-
-<div class="form">
-    <form action="" method="POST">
-    {% csrf_token%}
-    <div style="padding: 20px;">
-    <label for="name">Name: </label>
-    <input class="field" style="height: 30px;width:200px" type="text" name="name" id="name" placeholder="Enter name...">
-    </div>
-
-    <div style="padding: 20px;height: 30px;">
-    <label for="price">Price: </label>
-    <input class="field" style="height: 30px;width:200px" type="number" name="price">
-    </div>
-
-    <div style="padding: 20px;height: 30px;">
-        <label for="stock">Stock: </label>
-        <input class="field" style="height: 30px;width:200px" type="number" name="stock">
-    </div>
-
-    <div style="padding: 20px;height: 30px;">
-        <label for="image">Image: </label>
-        <input style="height: 50px;width:300px;" type="file" name="image">
-    </div>
-
-
-    <div style="padding: 20px; width: fit-content;">
-        <input style="height: 50px;width: 80px;font-size: large;" type="submit" value="Submit">
-    </div>
-    </form>
-    </div>
+<div class="container" style="width: fit-content;height:fit-content;background-color: gray;margin-top: 1rem;">
+  <form action="" method="POST">
+    {% csrf_token %} {{form | crispy}}
+    <input type="submit" class="btn btn-info" style="margin: 1.5rem 0;" value="Change" />
+  </form>
+</div>
 
 {% endblock content %}
+
 
 
 
