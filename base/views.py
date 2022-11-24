@@ -21,7 +21,7 @@ def homepage(request):
     try:
         inte = int(search_query)
         productsa = Product.objects.all()
-        # products = [product for product in productsa if product.price <= inte]
+        products = [product for product in productsa if product.price == inte]
     except:
         products  = Product.objects.filter(
             Q(brand__icontains=search_query) |

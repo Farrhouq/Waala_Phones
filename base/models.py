@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Product(models.Model):
     name = models.CharField(max_length=200, unique=True)
-    price = models.FloatField(null=True)
+    price = models.FloatField()
     stock = models.IntegerField(null=True)
     image = models.ImageField(null=True, )
     brand_choices = (
