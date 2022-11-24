@@ -1,8 +1,4 @@
-<<<<<<< HEAD
-=======
-from multiprocessing import context
 from operator import is_
->>>>>>> DesignBranch
 from tkinter import N
 from unicodedata import name
 from django.shortcuts import render
@@ -21,10 +17,11 @@ from django.db.models import Q
 def homepage(request):
     search_query = request.GET.get('q') if request.GET.get('q') != None else ''
     is_admin = '(Admin)' if request.user.is_superuser else ''
+    products = Product.objects.all()
     try:
         inte = int(search_query)
         productsa = Product.objects.all()
-        products = [product for product in productsa if product.price <= inte]
+        # products = [product for product in productsa if product.price <= inte]
     except:
         products  = Product.objects.filter(
             Q(brand__icontains=search_query) |
